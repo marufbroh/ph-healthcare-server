@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated/client"
 }
 
 datasource db {
@@ -15,58 +14,42 @@ datasource db {
 }
 
 model User {
-  id               String           @id @default(uuid())
-  name             String
-  email            String           @unique
-  password         String
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  adoptionRequests AdoptionRequest[]
+  id                 String     @id @default(uuid())
+  email              String     @unique
+  password           String
+  role               UserRole
+  needPasswordChange Boolean    @default(true)
+  status             UserStatus @default(ACTIVE)
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  admin              Admin?
 
   @@map("users")
 }
 
-model Pet {
-  id                   String            @id @default(uuid())
-  name                 String
-  species              String
-  breed                String
-  age                  Int
-  size                 petSize
-  location             String
-  description          String
-  temperament          String
-  medicalHistory       String
-  adoptionRequirements String
-  createdAt            DateTime          @default(now())
-  updatedAt            DateTime          @updatedAt
-  adoptionRequests     AdoptionRequest[]
+model Admin {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  profilePhoto  String?
+  contactNumber String
+  isDeleted     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  @@map("pets")
+  user User @relation(fields: [email], references: [email])
+
+  @@map("admins")
 }
 
-enum petSize {
-  small
-  medium
-  large
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  DOCTOR
+  PATIENT
 }
 
-model AdoptionRequest {
-  id                     String                @id @default(uuid())
-  status                 adoptionRequestStatus @default(PENDING)
-  petOwnershipExperience String
-  createdAt              DateTime              @default(now())
-  updatedAt              DateTime              @updatedAt
-  user                   User                  @relation(fields: [userId], references: [id])
-  userId                 String             
-  pet                    Pet                   @relation(fields: [petId], references: [id])
-  petId                  String
-
-  @@map("adoption-requests")
-}
-
-enum adoptionRequestStatus {
-  PENDING
-  APPROVED
-  REJECTED
+enum UserStatus {
+  ACTIVE
+  BLOCKED
 }
