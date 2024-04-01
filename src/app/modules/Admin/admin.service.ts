@@ -60,9 +60,16 @@ const getAllFromDB = async (params: any, options: any) => {
         },
         data: result
     }
+};
+
+
+
+const getByIdFromDB = async () => {
+
 }
 
 
 export const AdminService = {
-    getAllFromDB
+    getAllFromDB,
+    getByIdFromDB
 }
