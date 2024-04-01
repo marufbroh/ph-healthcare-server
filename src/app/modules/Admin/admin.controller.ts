@@ -28,7 +28,8 @@ const getAllFromDB = async (req: Request, res: Response) => {
 
 const getByIdFromDB = async (req: Request, res: Response) => {
     try {
-        const result = await AdminService.getByIdFromDB()
+        const id = req.params.id;
+        const result = await AdminService.getByIdFromDB(id)
         res.status(200).json({
             success: true,
             message: "Admin retrieve successfully by Id",
