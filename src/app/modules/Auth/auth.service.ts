@@ -43,6 +43,12 @@ const loginUser = async (payload: {
     };
 };
 
+
+const refreshToken = async(token: string) => {
+    console.log("object");
+}
+
 export const authServices = {
-    loginUser
+    loginUser,
+    refreshToken,
 };
