@@ -77,9 +77,15 @@ const refreshToken = async (token: string) => {
         accessToken,
         needPasswordChange: userData.needPasswordChange
     };
+};
+
+
+const changePassword = async() => {
+
 }
 
 export const authServices = {
     loginUser,
     refreshToken,
+    changePassword,
 };
