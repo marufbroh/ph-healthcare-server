@@ -80,7 +80,16 @@ const refreshToken = async (token: string) => {
 };
 
 
-const changePassword = async() => {
+const changePassword = async (user: any, payload: any) => {
+
+    const userData = await prisma.user.findFirstOrThrow({
+        where: {
+            email: user.email
+        }
+    });
+
+    
+
 
 }
 
