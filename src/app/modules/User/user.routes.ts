@@ -6,8 +6,6 @@ import { userController } from './user.controller';
 
 const router = express.Router();
 
-
-
 router.post("/",
     auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
     fileUploader.upload.single('file'),
