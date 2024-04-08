@@ -10,13 +10,16 @@ const emailSender = async (email: string, html: string) => {
             user: config.emailSender.email,
             pass: config.emailSender.app_pass,
         },
+        tls: {
+            rejectUnauthorized: false
+        }
     });
 
     const info = await transporter.sendMail({
         from: '"PH Health Care 👻" <marufmd775@gmail.com>', // sender address
         to: email, // list of receivers
         subject: "Reset Password Link", // Subject line
-       // text: "Hello world?", // plain text body
+        // text: "Hello world?", // plain text body
         html: html, // html body
     });
 

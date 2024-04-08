@@ -5,6 +5,8 @@ import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 import { UserStatus } from '@prisma/client';
 import config from '../../../config';
 import emailSender from './emailSender';
+import ApiError from '../../errors/ApiError';
+import httpStatus from 'http-status';
 
 const loginUser = async (payload: {
     email: string,
@@ -151,9 +153,44 @@ const forgotPassword = async (payload: { email: string }) => {
 
 };
 
+
+const resetPassword = async (token: string, payload: { email: string, password: string }) => {
+
+    const userData = await prisma.user.findFirstOrThrow({
+        where: {
+            email: payload.email,
+            status: UserStatus.ACTIVE
+        }
+    });
+
+    const isValidToken = jwtHelpers.verifyToken(token, config.jwt.reset_password_secret as Secret);
+
+    if (!isValidToken) {
+        throw new ApiError(httpStatus.UNAUTHORIZED, "You're not authorized!")
+    };
+
+    const hashedPassword: string = await bcrypt.hash(payload.password, 12);
+
+    await prisma.user.update({
+        where: {
+            email: userData.email
+        },
+        data: {
+            password: hashedPassword,
+            needPasswordChange: false
+        }
+    });
+
+    return {
+        message: "Password Reset Successfully"
+    }
+
+}
+
 export const authServices = {
     loginUser,
     refreshToken,
     changePassword,
     forgotPassword,
+    resetPassword
 };
