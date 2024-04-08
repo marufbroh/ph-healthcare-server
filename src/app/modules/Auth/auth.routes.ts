@@ -13,4 +13,8 @@ router.post("/change-password",
     auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.DOCTOR, UserRole.PATIENT),
     authController.changePassword);
 
+router.post("/forgot-password",
+    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.DOCTOR, UserRole.PATIENT),
+    authController.forgotPassword);
+
 export const AuthRoutes = router;
