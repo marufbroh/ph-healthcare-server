@@ -7,6 +7,11 @@ import { userValidation } from './user.validation';
 
 const router = express.Router();
 
+router.get("/",
+    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
+    userController.getAllFromDB
+)
+
 router.post("/create-admin",
     auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
     fileUploader.upload.single('file'),
