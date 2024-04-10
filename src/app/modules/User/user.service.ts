@@ -148,6 +148,18 @@ const getAllFromDB = async (params: any, options: TPaginationOptions) => {
             [options.sortBy]: options.sortOrder
         } : {
             createdAt: 'desc'
+        },
+        select: {
+            id: true,
+            email: true,
+            role: true,
+            needPasswordChange: true,
+            status: true,
+            createdAt: true,
+            updatedAt: true,
+            admin: true,
+            Doctor: true,
+            Patient: true,
         }
     });
 
