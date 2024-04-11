@@ -13,6 +13,12 @@ router.get("/",
     userController.getAllFromDB
 )
 
+router.get(
+    '/me',
+    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.DOCTOR, UserRole.PATIENT),
+    userController.getMyProfile
+)
+
 router.post("/create-admin",
     auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
     fileUploader.upload.single('file'),
@@ -47,5 +53,8 @@ router.patch("/:id/status",
     validateRequest(userValidation.updateStatus),
     userController.changeProfileStatus
 )
+
+
+
 
 export const UserRoutes = router;
