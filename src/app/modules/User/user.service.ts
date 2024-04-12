@@ -7,6 +7,7 @@ import { Request } from "express";
 import { TPaginationOptions } from "../../interfaces/pagination";
 import { paginationHelper } from "../../../helpers/paginationHelper";
 import { userSearchableFields } from "./user.constant";
+import { IAuthUser } from "../../interfaces/common";
 
 
 const createAdmin = async (req: Request): Promise<Admin> => {
