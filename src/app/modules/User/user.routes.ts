@@ -2,21 +2,15 @@ import { UserRole } from '@prisma/client';
 import express, { NextFunction, Request, Response } from 'express';
 import { fileUploader } from '../../../helpers/fileUploader';
 import auth from '../../middlewares/auth';
+import validateRequest from '../../middlewares/validateRequest';
 import { userController } from './user.controller';
 import { userValidation } from './user.validation';
-import validateRequest from '../../middlewares/validateRequest';
 
 const router = express.Router();
 
 router.get("/",
     auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
     userController.getAllFromDB
-)
-
-router.get(
-    '/me',
-    auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.DOCTOR, UserRole.PATIENT),
-    userController.getMyProfile
 )
 
 router.post("/create-admin",
