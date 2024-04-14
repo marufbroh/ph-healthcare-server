@@ -57,7 +57,7 @@ const getAllFromDB = catchAsync(async (req, res) => {
 
 
 const changeProfileStatus = catchAsync(async (req: Request, res: Response) => {
-const {id} = req.params;
+    const { id } = req.params;
     const result = await userService.changeProfileStatus(id, req.body);
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -69,20 +69,29 @@ const {id} = req.params;
 
 
 const getMyProfile = catchAsync(async (req: Request, res: Response) => {
-
-    console.log(req.user);
-
     const user = req.user;
 
-        const result = await userService.getMyProfile(user);
-        sendResponse(res, {
-            statusCode: httpStatus.OK,
-            success: true,
-            message: "My profile data fetched!",
-            data: result
-        })
-    });
+    const result = await userService.getMyProfile(user);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "My profile data fetched!",
+        data: result
+    })
+});
 
+
+const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
+    const user = req.user;
+    
+    const result = await userService.updateMyProfile(user, req.body);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "My profile data updated!",
+        data: result
+    })
+});
 
 export const userController = {
     createAdmin,
@@ -91,4 +100,5 @@ export const userController = {
     getAllFromDB,
     changeProfileStatus,
     getMyProfile,
+    updateMyProfile,
 }

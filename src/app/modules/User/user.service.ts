@@ -199,7 +199,8 @@ const changeProfileStatus = async (id: string, status: UserStatus) => {
 const getMyProfile = async (user) => {
     const userInfo = await prisma.user.findUniqueOrThrow({
         where: {
-            email: user.email
+            email: user.email,
+            status: UserStatus.ACTIVE
         },
         select: {
             id: true,
@@ -249,6 +250,57 @@ const getMyProfile = async (user) => {
         ...userInfo,
         ...profileInfo,
     }
+};
+
+
+const updateMyProfile = async (user, payload) => {
+    const userInfo = await prisma.user.findUniqueOrThrow({
+        where: {
+            email: user.email,
+            status: UserStatus.ACTIVE
+        }
+    });
+
+    let profileInfo;
+
+    if (userInfo?.role === UserRole.SUPER_ADMIN) {
+        profileInfo = await prisma.admin.update({
+            where: {
+                email: userInfo.email
+            },
+            data: payload
+        })
+    };
+
+    if (userInfo?.role === UserRole.ADMIN) {
+        profileInfo = await prisma.admin.update({
+            where: {
+                email: userInfo.email
+            },
+            data: payload
+        })
+    };
+
+    if (userInfo?.role === UserRole.DOCTOR) {
+        profileInfo = await prisma.doctor.update({
+            where: {
+                email: userInfo.email
+            },
+            data: payload
+        })
+    };
+
+    if (userInfo?.role === UserRole.PATIENT) {
+        profileInfo = await prisma.patient.update({
+            where: {
+                email: userInfo.email
+            },
+            data: payload
+        })
+    };
+
+    return { ...profileInfo }
+
 }
 
 
@@ -258,5 +310,6 @@ export const userService = {
     createPatient,
     getAllFromDB,
     changeProfileStatus,
-    getMyProfile
+    getMyProfile,
+    updateMyProfile,
 }
