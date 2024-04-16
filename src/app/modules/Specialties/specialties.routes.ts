@@ -6,10 +6,10 @@ import { SpecialtiesValidtaion } from './specialties.validation';
 const router = express.Router();
 
 
-// router.get(
-//     '/',
-//     SpecialtiesController.getAllFromDB
-// );
+router.get(
+    '/',
+    SpecialtiesController.getAllFromDB
+);
 
 router.post(
     '/',
