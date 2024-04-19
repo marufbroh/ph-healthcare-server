@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { jwtHelpers } from "../../../helpers/jwtHelpers";
+import { jwtHelpers } from "../../../helpars/jwtHelpers";
 import prisma from "../../../shared/prisma";
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 import { UserStatus } from '@prisma/client';

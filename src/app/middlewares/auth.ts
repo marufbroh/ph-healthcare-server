@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { jwtHelpers } from "../../helpers/jwtHelpers";
+import { jwtHelpers } from "../../helpars/jwtHelpers";
 import config from "../../config";
 import { Secret } from "jsonwebtoken";
 import ApiError from "../errors/ApiError";

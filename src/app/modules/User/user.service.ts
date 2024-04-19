@@ -1,8 +1,8 @@
 import { Admin, Doctor, Patient, Prisma, UserRole, UserStatus } from "@prisma/client";
 import bcrypt from 'bcrypt';
 import { Request } from "express";
-import { fileUploader } from "../../../helpers/fileUploader";
-import { paginationHelper } from "../../../helpers/paginationHelper";
+import { fileUploader } from "../../../helpars/fileUploader";
+import { paginationHelper } from "../../../helpars/paginationHelper";
 import prisma from "../../../shared/prisma";
 import { IFile } from "../../interfaces/file";
 import { TPaginationOptions } from "../../interfaces/pagination";
@@ -264,7 +264,7 @@ const updateMyProfile = async (user: IAuthUser, req: Request) => {
 
     const file = req.file as IFile;
 
-    if(file){
+    if (file) {
         const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
         req.body.profilePhoto = uploadToCloudinary?.secure_url;
     }
