@@ -10,7 +10,7 @@ const getAllFromDB = async (
     options: IPaginationOptions,
 ) => {
     const { limit, page, skip } = paginationHelper.calculatePagination(options);
-    const { searchTerm, ...filterData } = filters;
+    const { searchTerm, specialties, ...filterData } = filters;
 
     const andConditions: Prisma.DoctorWhereInput[] = [];
 
@@ -41,6 +41,21 @@ const getAllFromDB = async (
     //         }
     //     })
     // };
+
+    if (specialties && specialties.length > 0) {
+        andConditions.push({
+            doctorSpecialties: {
+                some: {
+                    specialities: {
+                        title: {
+                            contains: specialties,
+                            mode: 'insensitive'
+                        }
+                    }
+                }
+            }
+        })
+    }
 
 
     if (Object.keys(filterData).length > 0) {

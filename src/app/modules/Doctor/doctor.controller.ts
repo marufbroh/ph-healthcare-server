@@ -76,4 +76,4 @@ export const DoctorController = {
     getByIdFromDB,
     deleteFromDB,
     softDelete
-}
+};
