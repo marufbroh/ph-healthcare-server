@@ -33,3 +33,9 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
       data: result,
     });
   });
+
+
+  export const PatientController = {
+    getAllFromDB,
+    getByIdFromDB
+  };
