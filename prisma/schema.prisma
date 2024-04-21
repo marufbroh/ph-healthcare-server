@@ -23,8 +23,8 @@ model User {
   createdAt          DateTime   @default(now())
   updatedAt          DateTime   @updatedAt
   admin              Admin?
-  Doctor             Doctor?
-  Patient            Patient?
+  doctor             Doctor?
+  patient            Patient?
 
   @@map("users")
 }
@@ -79,8 +79,8 @@ model Patient {
   updatedAt     DateTime @updatedAt
 
   user              User               @relation(references: [email], fields: [email])
-  PatientHealthData PatientHealthData?
-  MedicalReport     MedicalReport[]
+  patientHealthData PatientHealthData?
+  medicalReport     MedicalReport[]
 
   @@map("patients")
 }
