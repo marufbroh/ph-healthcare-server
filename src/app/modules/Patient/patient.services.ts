@@ -88,7 +88,10 @@ const getByIdFromDB = async (id: string): Promise<Patient | null> => {
 };
 
 
+
+
+
 export const PatientService = {
     getAllFromDB,
-    getByIdFromDB
+    getByIdFromDB,
 };

@@ -18,10 +18,11 @@ router.get(
 //     PatientController.updateIntoDB
 // );
 
-// router.delete(
-//     '/:id',
-//     PatientController.deleteFromDB
-// );
+router.delete(
+    '/:id',
+    PatientController.deleteFromDB
+);
+
 // router.delete(
 //     '/soft/:id',
 //     PatientController.softDelete
