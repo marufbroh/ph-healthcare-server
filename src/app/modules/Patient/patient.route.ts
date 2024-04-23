@@ -13,10 +13,10 @@ router.get(
     PatientController.getByIdFromDB
 );
 
-// router.patch(
-//     '/:id',
-//     PatientController.updateIntoDB
-// );
+router.patch(
+    '/:id',
+    PatientController.updateIntoDB
+);
 
 router.delete(
     '/:id',
