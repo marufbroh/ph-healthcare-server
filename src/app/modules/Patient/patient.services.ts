@@ -88,14 +88,31 @@ const getByIdFromDB = async (id: string): Promise<Patient | null> => {
 
 const updateIntoDB = async (id: string, payload: Partial<IPatientUpdate>): Promise<Patient | null> => {
 
-    const result = await prisma.patient.update({
-        where: {
-            id
-        },
-        data: payload
-    })
+    const { patientHealthData, medicalReport, ...patientData } = payload;
 
-    return result
+    const patientInfo = await prisma.patient.findUniqueOrThrow({
+        where: {
+            id,
+            isDeleted: false
+        }
+    });
+
+
+    const result = await prisma.$transaction(async (transactionClient) => {
+        const result = await transactionClient.patient.update({
+            where: {
+                id
+            },
+            data: patientData,
+            include: {
+                patientHealthData: true,
+                medicalReport: true
+            }
+        });
+
+
+
+    })
 
 };
 
