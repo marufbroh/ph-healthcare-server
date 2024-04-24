@@ -121,9 +121,23 @@ const updateIntoDB = async (id: string, payload: Partial<IPatientUpdate>): Promi
         };
 
 
-        
+        if (medicalReport) {
+            await transactionClient.medicalReport.create({
+                data: { ...medicalReport, patientId: patientInfo.id }
+            })
+        };
 
 
+        const responseData = await prisma.patient.findUnique({
+            where: {
+                id: patientInfo.id
+            },
+            include: {
+                patientHealthData: true,
+                medicalReport: true
+            }
+        })
+        return responseData;
 
     })
 
