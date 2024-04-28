@@ -143,9 +143,40 @@ const updateIntoDB = async (id: string, payload: Partial<IPatientUpdate>): Promi
 };
 
 
-// const deleteFromDB = async (id: string): Promise<Patient | null> => {
+const deleteFromDB = async (id: string): Promise<Patient | null> => {
+    const result = await prisma.$transaction(async (tx) => {
 
-// };
+        await tx.medicalReport.deleteMany({
+            where: {
+                patientId: id
+            }
+        });
+
+        await tx.patientHealthData.delete({
+            where: {
+                patientId: id
+            }
+        });
+
+
+        const deletedPatient = await prisma.patient.delete({
+            where: {
+                id
+            }
+        });
+
+        await tx.user.delete({
+            where: {
+                email: deletedPatient.email
+            }
+        });
+
+        return deletedPatient;
+
+    })
+
+    return result;
+};
 
 // const softDelete = async (id: string): Promise<Patient | null> => {
 
