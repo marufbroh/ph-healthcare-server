@@ -178,9 +178,27 @@ const deleteFromDB = async (id: string): Promise<Patient | null> => {
     return result;
 };
 
-// const softDelete = async (id: string): Promise<Patient | null> => {
+const softDelete = async (id: string): Promise<Patient | null> => {
+    return await prisma.$transaction(async transactionClient => {
+        const deletedPatient = await transactionClient.patient.update({
+            where: { id },
+            data: {
+                isDeleted: true,
+            },
+        });
 
-// };
+        await transactionClient.user.update({
+            where: {
+                email: deletedPatient.email,
+            },
+            data: {
+                status: UserStatus.DELETED,
+            },
+        });
+
+        return deletedPatient;
+    });
+};
 
 export const PatientService = {
     getAllFromDB,
