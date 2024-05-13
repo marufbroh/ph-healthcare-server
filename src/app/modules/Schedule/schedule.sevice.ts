@@ -6,7 +6,26 @@ const inserIntoDB = async (payload: any) => {
     const currentDate = new Date(startDate);
     const lastDate = new Date(endDate)
 
-    
+    while(currentDate <= lastDate){
+        const startDateTime = new Date(
+            addHours(
+                `${format(currentDate, 'YYYY-MM-DD')}`,
+                Number(startTime.split(':')[0])
+            )
+        );
+
+
+        const endDateTime = new Date(
+            addHours(
+                `${format(lastDate, 'YYYY-MM-DD')}`,
+                Number(endTime.split(':')[0])
+            )
+        );
+
+        while(startDateTime <= endDateTime){
+            
+        }
+    }
 };
 
 export const ScheduleService = {
